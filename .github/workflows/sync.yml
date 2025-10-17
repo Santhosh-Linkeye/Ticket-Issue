@@ -1,0 +1,31 @@
+name: Freshservice to GitHub Issues Sync
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"   # Runs every 15 minutes
+  workflow_dispatch:         # Allows manual run
+
+jobs:
+  sync-fs-to-issues:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: 📦 Install dependencies
+        run: pip install requests
+
+      - name: 🚀 Run sync script
+        env:
+          FS_DOMAIN: ${{ secrets.FS_DOMAIN }}
+          FS_API_KEY: ${{ secrets.FS_API_KEY }}
+          FS_GROUP_ID: ${{ secrets.FS_GROUP_ID }}
+          TOKEN_CUSTOM: ${{ secrets.TOKEN_CUSTOM }}
+          REPO_NAME: ${{ secrets.REPO_NAME }}
+        run: python fresh_to_issues.py
