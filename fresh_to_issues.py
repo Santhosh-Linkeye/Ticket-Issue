@@ -69,7 +69,7 @@ if response.status_code == 200:
 
         # ✅ Only process Open, Pending, or On Hold tickets
         if group_id == TARGET_GROUP_ID and ticket_status in [2, 3, 6]:
-            title = f"[FS #{ticket_id}] {ticket['subject']}"
+            title = f"[Fresh Service] [#{ticket_id}] {ticket['subject']}"
             
             # ❌ Skip if issue already exists
             if title in existing_titles:
